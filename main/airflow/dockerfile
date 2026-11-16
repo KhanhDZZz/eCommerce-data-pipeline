@@ -1,0 +1,16 @@
+ARG AIRFLOW_VERSION=2.10.5
+FROM apache/airflow:${AIRFLOW_VERSION}
+
+USER root
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends default-jre-headless curl \
+    && mkdir -p /opt/spark-jars \
+    && curl -fsSL -o /opt/spark-jars/postgresql.jar \
+        https://repo1.maven.org/maven2/org/postgresql/postgresql/42.7.4/postgresql-42.7.4.jar \
+    && chmod 644 /opt/spark-jars/postgresql.jar \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+USER airflow
+COPY requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir -r /tmp/requirements.txt

@@ -1,0 +1,6 @@
+apache-airflow-providers-postgres
+pandas
+openpyxl
+psycopg2-binary
+sqlalchemy
+pyspark==3.5.3
